@@ -49,10 +49,10 @@ RUN apt-get install -y \
     libtiff5-dev \
     libjpeg-dev
 
-# RUN mkdir -p /home/hieunguyen/miniconda3_docker && \
-#     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /home/hieunguyen/miniconda3_docker/miniconda.sh && \
-#     bash /home/hieunguyen/miniconda3_docker/miniconda.sh -b -u -p /home/hieunguyen/miniconda3_docker && \
-#     rm /home/hieunguyen/miniconda3_docker/miniconda.sh
+# RUN mkdir -p /home/hieunguyen_docker/miniconda3_docker && \
+#     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /home/hieunguyen_docker/miniconda3_docker/miniconda.sh && \
+#     bash /home/hieunguyen_docker/miniconda3_docker/miniconda.sh -b -u -p /home/hieunguyen_docker/miniconda3_docker && \
+#     rm /home/hieunguyen_docker/miniconda3_docker/miniconda.sh
 
 # Note, Hieu: include TARGETARCH build argument to support multi-arch build
 # https://docs.docker.com/engine/reference/commandline/buildx_build/#set-build
@@ -61,16 +61,16 @@ RUN apt-get install -y \
 # ROSETTA ERROR rosetta error: failed to open elf at /lib64/ld-linux-x86-64.so.2
 
 ARG TARGETARCH
-RUN mkdir /home/hieunguyen/miniconda3_docker
+RUN mkdir -p /home/hieunguyen_docker/miniconda3_docker
 RUN if [ "$TARGETARCH" = "amd64" ]; then ARCH="x86_64"; else ARCH="aarch64"; fi && \
   wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-${ARCH}.sh \
-  -O /home/hieunguyen/miniconda3_docker/miniconda.sh && \
-  bash /home/hieunguyen/miniconda3_docker/miniconda.sh -b -u -p /home/hieunguyen/miniconda3_docker && \
-  rm /home/hieunguyen/miniconda3_docker/miniconda.sh
+  -O /home/hieunguyen_docker/miniconda3_docker/miniconda.sh && \
+  bash /home/hieunguyen_docker/miniconda3_docker/miniconda.sh -b -u -p /home/hieunguyen_docker/miniconda3_docker && \
+  rm /home/hieunguyen_docker/miniconda3_docker/miniconda.sh
 
 RUN apt-get install libzmq3-dev -y
 
-ENV PATH=/home/hieunguyen/miniconda3_docker/bin:${PATH}
+ENV PATH=/home/hieunguyen_docker/miniconda3_docker/bin:${PATH}
 ##### install jupyterlab and R kernel.
 RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main & \
   conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
@@ -93,3 +93,5 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.22.1/samtools-
   RUN pip install anndata2ri 
   RUN pip install -U scvelo
   RUN pip install tqdm
+
+  RUN apt-get install libssl-dev -y
