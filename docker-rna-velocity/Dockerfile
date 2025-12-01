@@ -88,4 +88,8 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.22.1/samtools-
   tar -xvjf samtools-1.22.1.tar.bz2 && \
   cd samtools-1.22.1 && \
   ./configure --prefix=/home/hieunguyen && \
-  make & make install
+  make && make install
+
+  RUN pip install anndata2ri 
+  RUN pip install -U scvelo
+  RUN pip install tqdm
