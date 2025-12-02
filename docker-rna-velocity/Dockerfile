@@ -95,3 +95,10 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.22.1/samtools-
   RUN pip install tqdm
 
   RUN apt-get install libssl-dev -y
+
+  RUN if [ "$TARGETARCH" = "amd64" ]; then p="http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.0g-2ubuntu4_amd64.deb"; \
+    else p="http://launchpadlibrarian.net/475575244/libssl1.1_1.1.1f-1ubuntu2_arm64.deb"; fi && \
+    p_name=$(echo $p | xargs -n 1 basename) && wget $p && dpkg -i $p_name
+
+COPY ./install_R_packages.R /home/hieunguyen/
+RUN Rscript /home/hieunguyen/install_R_packages.R
