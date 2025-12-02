@@ -102,3 +102,4 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.22.1/samtools-
 
 COPY ./install_R_packages.R /home/hieunguyen/
 RUN Rscript /home/hieunguyen/install_R_packages.R
+RUN pip install loompy

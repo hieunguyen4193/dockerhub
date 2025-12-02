@@ -11,7 +11,8 @@ new.pkgs <- c(  "tidyverse",
                 "this.path", 
                 "readxl", 
                 "writexl",
-                "remotes")
+                "remotes",
+                "devtools")
 for (pkg in new.pkgs){
   if (pkg %in% installed.packages() == FALSE){
     install.packages(pkg)
